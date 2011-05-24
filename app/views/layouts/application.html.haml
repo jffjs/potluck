@@ -1,0 +1,20 @@
+!!! 5
+%html
+  %head
+    %title Appointer
+    = stylesheet_link_tag     "application"
+    = javascript_include_tag  "application"
+    = csrf_meta_tags
+  %body
+    - if user_signed_in?
+      %ul
+        %li Log out
+    - else
+      %ul
+        %li Sign up
+        %li Log in
+    - if flash[:notice]
+      = flash[:notice]
+    -if flash[:alert]
+      = flash[:alert]
+    = yield
