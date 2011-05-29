@@ -1,0 +1,11 @@
+= @user.name
+- if user_signed_in?
+  - unless current_user == @user
+    - if current_user.requested_friends.include?(@user)
+      Friendship request pending
+    - elsif current_user.pending_friends.include?(@user)
+      = render :partial => 'friendships/pending_friend', :locals => { :pending_friend => @user }
+    - else
+      = form_tag friendships_path do
+        = hidden_field_tag 'friend_id', @user.id
+        = submit_tag 'Request friendship'

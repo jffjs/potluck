@@ -7,8 +7,13 @@ Given /^no user exists with an email of "([^"]*)"$/ do |email|
 end
 
 Given /^I am a user with an email "([^"]*)" and password "([^"]*)"$/ do |email, password|
-  User.create!(:email => email, :password => password,
-                                :password_confirmation => password)
+  @current_user = User.create!(:name => "Test User", :email => email, :password => password,
+                                                      :password_confirmation => password)
+end
+
+Given /^a user with an email "([^"]*)" and name "([^"]*)"$/ do |email, name|
+  @user = User.create!(:name => name, :email => email, :password => "password",
+                                                      :password_confirmation => "password")
 end
 
 When /^I sign in as "(.*)\/(.*)"$/ do |email, password|
@@ -23,6 +28,15 @@ When /^I return next time$/ do
   visit root_path
 end
 
+When /^I visit the profile of the user with email "([^"]*)"$/ do |email|
+  user = User.first(:conditions => {:email => email})
+  visit user_path(user)
+end
+
+When /^I sign out$/ do
+  visit destroy_user_session_path
+end
+
 Then /^I should be signed out$/ do
   And %{I should see "Sign up"}
   And %{I should see "Log in"}
@@ -32,8 +46,4 @@ end
 Then /^I should be signed in$/ do
   And %{I should see "Log out"}
   And %{I should not see "Log in"}
-end
-
-Then /^I sign out$/ do
-  visit destroy_user_session_path
 end

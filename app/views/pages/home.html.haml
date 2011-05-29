@@ -1,0 +1,7 @@
+- if user_signed_in?
+  = current_user.name
+  - if current_user.pending_friends.length > 0
+    %ul#pending-friends-list
+      - current_user.pending_friends.each do |pending_friend|
+        %li.pending-friend
+          = render :partial => 'friendships/pending_friend', :locals => {:pending_friend => pending_friend }

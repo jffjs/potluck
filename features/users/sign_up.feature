@@ -7,6 +7,7 @@ Feature: New User Sign Up
   Scenario: User signs up with valid data
     Given that I am signed out
     When I go to the sign up page
+    And I fill in "Name" with "Jeff"
     And I fill in "Email" with "user@test.com"
     And I fill in "Password" with "password"
     And I fill in "Password confirmation" with "password"
@@ -16,6 +17,7 @@ Feature: New User Sign Up
   Scenario: User signs up with invalid email
     Given that I am signed out
     When I go to the sign up page
+    And I fill in "Name" with "Jeff"
     And I fill in "Email" with "invalidemail"
     And I fill in "Password" with "password"
     And I fill in "Password confirmation" with "password"
@@ -25,6 +27,7 @@ Feature: New User Sign Up
   Scenario: User signs up without password
     Given that I am signed out
     When I go to the sign up page
+    And I fill in "Name" with "Jeff"
     And I fill in "Email" with "user@test.com"
     And I fill in "Password confirmation" with "password"
     And I press "Sign up"
@@ -33,6 +36,7 @@ Feature: New User Sign Up
   Scenario: User signs up without password confirmation
     Given that I am signed out
     When I go to the sign up page
+    And I fill in "Name" with "Jeff"
     And I fill in "Email" with "user@test.com"
     And I fill in "Password" with "password"
     And I press "Sign up"
@@ -41,8 +45,18 @@ Feature: New User Sign Up
   Scenario: User signs up without matching password and password confirmation
     Given that I am signed out
     When I go to the sign up page
+    And I fill in "Name" with "Jeff"
     And I fill in "Email" with "user@test.com"
     And I fill in "Password" with "password"
     And I fill in "Password confirmation" with "different"
     And I press "Sign up"
     Then I should see "Password doesn't match confirmation"
+    
+  Scenario: User signs up without a name
+    Given that I am signed out
+    When I go to the sign up page
+    And I fill in "Email" with "user@test.com"
+    And I fill in "Password" with "password"
+    And I fill in "Password confirmation" with "password"
+    And I press "Sign up"
+    Then I should see "Name can't be blank"

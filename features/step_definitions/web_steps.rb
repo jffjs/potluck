@@ -102,6 +102,14 @@ When /^(?:|I )attach the file "([^"]*)" to "([^"]*)"$/ do |path, field|
   attach_file(field, File.expand_path(path))
 end
 
+Then /^(?:|I )should see a button with "([^"]*)"$/ do |text|
+  page.should have_selector('input', :type => 'submit', :value => text)
+end
+
+Then /^I should not see a button with "([^"]*)"$/ do |text|
+  page.should_not have_selector('input', :type => 'submit', :value => text)
+end
+
 Then /^(?:|I )should see "([^"]*)"$/ do |text|
   if page.respond_to? :should
     page.should have_content(text)

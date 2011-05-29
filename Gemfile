@@ -6,7 +6,7 @@ gem 'rails', '3.1.0.rc1'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-gem 'devise'
+gem 'devise', :git => 'https://github.com/plataformatec/devise.git'
 gem 'haml'
 
 # Asset template engines
@@ -28,6 +28,7 @@ gem 'jquery-rails'
 group :test do
   # Pretty printed test output
   gem 'turn', :require => false
+  gem 'factory_girl_rails'
 end
 
 group :test, :development do

@@ -1,13 +1,14 @@
 !!! 5
 %html
   %head
-    %title Appointer
+    %title Potluck
     = stylesheet_link_tag     "application"
     = javascript_include_tag  "application"
     = csrf_meta_tags
   %body
     - if user_signed_in?
       %ul
+        %li= link_to "Edit account", edit_user_registration_path
         %li Log out
     - else
       %ul
@@ -15,6 +16,6 @@
         %li Log in
     - if flash[:notice]
       = flash[:notice]
-    -if flash[:alert]
+    - if flash[:alert]
       = flash[:alert]
     = yield
