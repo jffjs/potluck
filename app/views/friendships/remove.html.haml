@@ -1,0 +1,9 @@
+Are you sure?
+= form_tag remove_friendships_path do
+  = hidden_field_tag 'friend_id', @friend.id
+  = hidden_field_tag 'confirm', 'yes'
+  = submit_tag 'Yes'
+= form_tag remove_friendships_path do
+  = hidden_field_tag 'friend_id', @friend.id
+  = hidden_field_tag 'confirm', 'no'
+  = submit_tag 'No'

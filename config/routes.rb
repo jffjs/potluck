@@ -5,6 +5,7 @@ Potluck::Application.routes.draw do
     collection do
       post 'accept'
       post 'ignore'
+      post 'remove'
     end
   end
   root :to => 'pages#home'

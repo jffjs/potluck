@@ -7,6 +7,10 @@
       = render :partial => 'friendships/pending_friend', :locals => { :pending_friend => @user }
     - elsif current_user.friends.include?(@user)
       = "You are friends with #{@user.name}"
+      = form_tag remove_friendships_path do
+        = hidden_field_tag 'friend_id', @user.id
+        = hidden_field_tag 'confirm', 'prompt'
+        = submit_tag 'Remove friendship'
     - else
       = form_tag friendships_path do
         = hidden_field_tag 'friend_id', @user.id

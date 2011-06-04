@@ -1,4 +1,5 @@
 class FriendshipsController < ApplicationController
+  before_filter :authenticate_user!
   before_filter { @friend = User.find(params[:friend_id]) }
   
   def create    
@@ -36,6 +37,18 @@ class FriendshipsController < ApplicationController
       flash[:notice] = "Friendship request ignored"
     end
     redirect_to root_path
+  end
+  
+  def remove
+    if params[:confirm] == 'prompt'
+      render
+    elsif params[:confirm] == 'yes'
+      current_user.remove_friend(@friend)
+      flash[:notice] = "You are no longer friends with #{@friend.id}"
+      redirect_to user_path(@friend)
+    elsif params[:confirm] == 'no'
+      redirect_to user_path(@friend)
+    end
   end
   
   private

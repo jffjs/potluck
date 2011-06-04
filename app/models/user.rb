@@ -29,15 +29,21 @@ class User < ActiveRecord::Base
   end
   
   def accept_friend(friend)
-    friendships = [ Friendship.first(:conditions => { :user_id => self,   :friend_id => friend }),
-                    Friendship.first(:conditions => { :user_id => friend, :friend_id => self }) ]
-    friendships.each do |friendship|
-      friendship.update_attributes(:status => 'accepted')
-    end
+    friendships.first(:conditions => { :user_id => self, :friend_id => friend })
+      .update_attributes(:status => 'accepted')
+    friend.friendships.first(:conditions => { :user_id => friend, :friend_id => self })
+      .update_attributes(:status => 'accepted')
   end
   
   def ignore_friend_request(friend)
     friendship = Friendship.first(:conditions => { :user_id => self, :friend_id => friend })
     friendship.update_attributes(:ignored => true)
+  end
+  
+  def remove_friend(friend)
+    friendships.destroy(Friendship.first(:conditions => { :user_id => self,
+                                                          :friend_id => friend }))
+    friend.friendships.destroy(Friendship.first(:conditions => { :user_id => friend,
+                                                                 :friend_id => self }))                                                
   end
 end

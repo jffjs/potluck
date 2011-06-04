@@ -1,10 +1,13 @@
 require 'spec_helper'
 
 describe FriendshipsController do
+  include Devise::TestHelpers
+  
   let(:current_user) { mock_model(User).as_null_object }
   let(:friend) { mock_model(User).as_null_object }
   
   before do
+    controller.stub(:authenticate_user!).and_return(true)
     controller.stub(:current_user).and_return(current_user)
   end
   
@@ -164,6 +167,53 @@ describe FriendshipsController do
     it "should set a flash[:notice] message" do
       post :ignore, :friend_id => friend.id
       flash[:notice].should =~ /Friendship request ignored/
+    end
+  end
+  
+  describe "POST remove" do
+    before do
+      User.stub(:find).and_return(friend)
+    end
+    
+    it "should display a confirmation message if no confirm param is passed" do
+      post :remove, :friend_id => friend.id
+      response.should render_template('remove')
+    end
+    
+    context "with confirm = 'prompt'" do
+      it "displays a confirmation message" do
+        post :remove, :confirm => 'prompt', :friend_id => friend.id
+        response.should render_template('remove')
+      end
+    end
+    
+    context "with confirm = 'yes'" do
+      it "removes the friendship with the specified friend" do
+        current_user.should_receive(:remove_friend).with(friend)
+        post :remove, :confirm => 'yes', :friend_id => friend.id
+      end
+      
+      it "should redirect to the removed friend's profile" do
+        post :remove, :confirm => 'yes', :friend_id => friend.id
+        response.should redirect_to user_path(friend)
+      end
+      
+      it "should set a flash[:notice] message" do
+        post :remove, :confirm => 'yes', :friend_id => friend.id
+        flash[:notice].should =~ /You are no longer friends with/
+      end
+    end
+    
+    context "with confirm = 'no'" do
+      it "does not remove the friendship with the specified friend" do
+        current_user.should_not_receive(:remove_friend)
+        post :remove, :confirm => 'no', :friend_id => friend.id
+      end
+      
+      it "should redirect to the friend's profile" do
+        post :remove, :confirm => 'no', :friend_id => friend.id
+        response.should redirect_to user_path(friend)
+      end
     end
   end
 end
