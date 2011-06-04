@@ -36,9 +36,30 @@ describe User do
     it "requests friendship with another user" do
       user = Factory.create(:user)
       friend = Factory.create(:friend)
-      user.request_friend(friend.id)
+      user.request_friend(friend)
       user.requested_friends.should == [friend]
       friend.pending_friends.should == [user]
+    end
+  end
+  
+  describe "#accept_friend" do
+    it "accepts friendship with a user that has requested friendship" do
+      user = Factory.create(:user)
+      friend = Factory.create(:friend)
+      friend.request_friend(user)
+      user.accept_friend(friend)
+      user.friends.should == [friend]
+      friend.friends.should == [user]
+    end
+  end
+  
+  describe "#ignore_friend_request" do
+    it "sets the user's pending friendship request to ignored" do
+      user = Factory.create(:user)
+      friend = Factory.create(:friend)
+      friend.request_friend(user)
+      user.ignore_friend_request(friend)
+      user.pending_friends.should_not include(friend)
     end
   end
 end

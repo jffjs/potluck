@@ -33,6 +33,10 @@ When /^I visit the profile of the user with email "([^"]*)"$/ do |email|
   visit user_path(user)
 end
 
+When /^I visit the user's profile/ do
+  visit user_path(@user)
+end
+
 When /^I sign out$/ do
   visit destroy_user_session_path
 end

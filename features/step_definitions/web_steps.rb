@@ -103,11 +103,11 @@ When /^(?:|I )attach the file "([^"]*)" to "([^"]*)"$/ do |path, field|
 end
 
 Then /^(?:|I )should see a button with "([^"]*)"$/ do |text|
-  page.should have_selector('input', :type => 'submit', :value => text)
+  page.should have_button(text)
 end
 
 Then /^I should not see a button with "([^"]*)"$/ do |text|
-  page.should_not have_selector('input', :type => 'submit', :value => text)
+  page.should_not have_button(text)
 end
 
 Then /^(?:|I )should see "([^"]*)"$/ do |text|

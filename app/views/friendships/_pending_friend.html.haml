@@ -1,3 +1,8 @@
 = "#{pending_friend.name} requested friendship"
-Accept
-Ignore
+= form_tag accept_friendships_path do
+  = hidden_field_tag 'friend_id', pending_friend.id
+  = submit_tag 'Accept'
+- unless current_user.ignored_pending_friends.include?(pending_friend)
+  = form_tag ignore_friendships_path do
+    = hidden_field_tag 'friend_id', pending_friend.id
+    = submit_tag 'Ignore'

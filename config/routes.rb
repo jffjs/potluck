@@ -1,7 +1,12 @@
 Potluck::Application.routes.draw do
   devise_for :users
   resources :users, :only => [:index, :show]
-  resources :friendships, :only => [:create, :index]
+  resources :friendships, :only => [:create, :index] do
+    collection do
+      post 'accept'
+      post 'ignore'
+    end
+  end
   root :to => 'pages#home'
   # The priority is based upon order of creation:
   # first created -> highest priority.

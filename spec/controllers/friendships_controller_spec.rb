@@ -2,11 +2,18 @@ require 'spec_helper'
 
 describe FriendshipsController do
   let(:current_user) { mock_model(User).as_null_object }
-  let(:friend) { mock_model(User) }
+  let(:friend) { mock_model(User).as_null_object }
+  
+  before do
+    controller.stub(:current_user).and_return(current_user)
+  end
   
   describe "POST create" do
     before do
-      controller.stub(:current_user).and_return(current_user)
+      current_user.stub(:requested_friends).and_return([])
+      current_user.stub(:friends).and_return([])
+      current_user.stub(:pending_friends).and_return([])
+      User.stub(:find).and_return(friend)
     end
     
     it "should redirect to root path" do
@@ -15,8 +22,148 @@ describe FriendshipsController do
     end
     
     it "requests a friendship with user" do
-      current_user.should_receive(:request_friend).with(friend.id)
+      current_user.should_receive(:request_friend).with(friend)
       post :create, :friend_id => friend.id
+    end
+    
+    it "should set a flash[:notice] message" do
+      post :create, :friend_id => friend.id
+      flash[:notice].should =~ /Friendship requested/
+    end
+    
+    context "with a user you have already requested friendship with" do
+      before do
+        current_user.stub(:requested_friends).and_return([friend])
+      end
+      
+      it "should not add the user as a requested friend again" do
+        current_user.should_not_receive(:request_friend)
+        post :create, :friend_id => friend.id
+      end
+      
+      it "should set a flash[:notice] message" do
+        post :create, :friend_id => friend.id
+        flash[:notice].should =~ /Friendship request is pending/
+      end
+    end
+    
+    context "with a user that has already requested friendship with you" do
+      it "should accept that user as a friend" do
+        current_user.stub(:pending_friends).and_return([friend])
+        current_user.should_receive(:accept_friend).with(friend)
+        post :create, :friend_id => friend.id
+      end
+    end
+    
+    context "with a user that you are already friends with" do
+      before do
+        current_user.stub(:friends).and_return([friend])
+      end
+      
+      it "should not add the user as a requested friend again" do
+        current_user.should_not_receive(:request_friend)
+        post :create, :friend_id => friend.id
+      end
+      
+      it "should set a flash[:notice] message" do
+        post :create, :friend_id => friend.id
+        flash[:notice].should =~ /You are already friends with/
+      end
+    end
+  end
+  
+  describe "POST accept" do
+    before do
+      User.stub(:find).and_return(friend)
+    end
+    
+    it "should redirect to root path" do
+      post :accept, :friend_id => friend.id
+      response.should redirect_to root_path
+    end
+    
+    it "accepts the friendship with the user" do
+      current_user.should_receive(:accept_friend).with(friend)
+      post :accept, :friend_id => friend.id
+    end
+    
+    it "should set a flash[:notice] message" do
+      post :accept, :friend_id => friend.id
+      flash[:notice].should =~ /You are now friends with/
+    end
+  
+    context "with a user that has not requested friendship with you" do
+      before do
+        current_user.stub(:pending_friends).and_return([])
+        current_user.stub(:requested_friends).and_return([])
+        current_user.stub(:friends).and_return([])
+      end
+      
+      it "should not accept the friendship" do
+        current_user.should_not_receive(:accept_friend)
+        post :accept, :friend_id => friend.id
+      end
+      
+      it "should set a flash[:alert] message" do
+        post :accept, :friend_id => friend.id
+        flash[:alert].should =~ /has not requested friendship with you/
+      end
+    end
+  
+    context "with a user that you have requested friendship with" do
+      before do
+        current_user.stub(:requested_friends).and_return([friend])
+        current_user.stub(:pending_friends).and_return([])
+      end
+      
+      it "should not accept the friendship" do
+        current_user.should_not_receive(:accept_friend)
+        post :accept, :friend_id => friend.id
+      end
+      
+      it "should set a flash[:alert] message" do
+        post :accept, :friend_id => friend.id
+        flash[:alert].should =~ /You must wait for this user to accept your friendship/
+      end
+    end
+    
+    context "with a user that you are already friends with" do
+      before do
+        current_user.stub(:friends).and_return([friend])
+        current_user.stub(:requested_friends).and_return([])
+        current_user.stub(:pending_friends).and_return([])
+      end
+      
+      it "should not accept the friendship" do
+        current_user.should_not_receive(:accept_friend)
+        post :accept, :friend_id => friend.id
+      end
+      
+      it "should set a flash[:alert] message" do
+        post :accept, :friend_id => friend.id
+        flash[:alert].should =~ /You are already friends with/
+      end
+    end
+  end
+  
+  describe "POST ignore" do
+    before do
+      User.stub(:find).and_return(friend)
+    end
+    
+    it "should redirect to root path" do
+      post :ignore, :friend_id => friend.id
+      response.should redirect_to root_path
+    end
+    
+    it "should ignore the friendship request" do
+      current_user.should_receive(:ignore_friend_request).with(friend)
+      post :ignore, :friend_id => friend.id
+    end
+    
+    it "should set a flash[:notice] message" do
+      post :ignore, :friend_id => friend.id
+      flash[:notice].should =~ /Friendship request ignored/
     end
   end
 end

@@ -13,14 +13,31 @@ class User < ActiveRecord::Base
                                :conditions => "status = 'requested'"
   has_many :pending_friends,   :through => :friendships, 
                                :source => :friend, 
-                               :conditions => "status = 'pending'"
+                               :conditions => "status = 'pending' and ignored = 'f'"
+  has_many :ignored_pending_friends,  :through => :friendships,
+                                      :source => :friend,
+                                      :conditions => "status = 'pending' and ignored = 't'"
   has_many :friendships, :dependent => :destroy
   
   validates :name, :presence => :true
   
-  def request_friend(friend_id)
-    friend = User.find(friend_id)
-    Friendship.create!(:user => self, :friend => friend, :status => 'requested')
-    Friendship.create!(:user => friend, :friend => self, :status => 'pending')
+  def request_friend(friend)
+    Friendship.create!(:user => self, :friend => friend, :status => 'requested',
+                                                         :ignored => false)
+    Friendship.create!(:user => friend, :friend => self, :status => 'pending',
+                                                         :ignored => false)
+  end
+  
+  def accept_friend(friend)
+    friendships = [ Friendship.first(:conditions => { :user_id => self,   :friend_id => friend }),
+                    Friendship.first(:conditions => { :user_id => friend, :friend_id => self }) ]
+    friendships.each do |friendship|
+      friendship.update_attributes(:status => 'accepted')
+    end
+  end
+  
+  def ignore_friend_request(friend)
+    friendship = Friendship.first(:conditions => { :user_id => self, :friend_id => friend })
+    friendship.update_attributes(:ignored => true)
   end
 end

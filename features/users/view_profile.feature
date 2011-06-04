@@ -33,7 +33,7 @@ Feature: View user profile
     And I visit the profile of the user with email "foo@bar.com"
     Then I should not see a button with "Request friendship"
     And I should see "Friendship request pending"
-    
+  
   Scenario: View a user's profile that has requested friendship with me
     Given I am a user with an email "user@test.com" and password "password"
     And I am friended by a user with an email "foo@bar.com" and name "Jeff S"
@@ -41,5 +41,5 @@ Feature: View user profile
     And I visit the profile of the user with email "foo@bar.com"
     Then I should not see a button with "Request friendship"
     And I should see "Jeff S requested friendship"
-    And I should see "Accept"
-    And I should see "Ignore"
+    And I should see a button with "Accept"
+    And I should see a button with "Ignore"

@@ -8,12 +8,12 @@
   %body
     - if user_signed_in?
       %ul
-        %li= link_to "Edit account", edit_user_registration_path
-        %li Log out
+        %li= link_to 'Edit account', edit_user_registration_path
+        %li= link_to 'Log out', destroy_user_session_path
     - else
       %ul
-        %li Sign up
-        %li Log in
+        %li= link_to 'Sign up', new_user_registration_path
+        %li= link_to 'Log in', new_user_session_path
     - if flash[:notice]
       = flash[:notice]
     - if flash[:alert]

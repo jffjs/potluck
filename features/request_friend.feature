@@ -17,5 +17,5 @@ Feature: Request friendship
     And I am friended by a user with an email "foo@bar.com" and name "Friend"
     When I sign in as "user@test.com/password"
     Then I should see "Friend requested friendship"
-    And I should see "Accept"
-    And I should see "Ignore"
+    And I should see a button with "Accept"
+    And I should see a button with "Ignore"
