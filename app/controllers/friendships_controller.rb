@@ -1,6 +1,10 @@
 class FriendshipsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter { @friend = User.find(params[:friend_id]) }
+  before_filter :find_friend, :except => [:index]
+  
+  def index
+    @friends = current_user.friends
+  end
   
   def create    
     if current_user.friends.include?(@friend)
@@ -44,7 +48,7 @@ class FriendshipsController < ApplicationController
       render
     elsif params[:confirm] == 'yes'
       current_user.remove_friend(@friend)
-      flash[:notice] = "You are no longer friends with #{@friend.id}"
+      flash[:notice] = "You are no longer friends with #{@friend.name}"
       redirect_to user_path(@friend)
     elsif params[:confirm] == 'no'
       redirect_to user_path(@friend)
@@ -52,6 +56,10 @@ class FriendshipsController < ApplicationController
   end
   
   private
+  
+  def find_friend
+    @friend = User.find(params[:friend_id])
+  end
   
   def accept_friend
     current_user.accept_friend(@friend)

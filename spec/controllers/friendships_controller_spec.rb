@@ -11,6 +11,18 @@ describe FriendshipsController do
     controller.stub(:current_user).and_return(current_user)
   end
   
+  describe "GET index" do
+    it "displays the user's friends" do
+      current_user.should_receive(:friends)
+      get :index
+    end
+    
+    it "should render the correct template" do
+      get :index
+      response.should render_template('index')
+    end
+  end
+  
   describe "POST create" do
     before do
       current_user.stub(:requested_friends).and_return([])

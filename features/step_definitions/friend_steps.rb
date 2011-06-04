@@ -6,8 +6,10 @@ Given /^I am friended by a user with an email "([^"]*)" and name "([^"]*)"$/ do 
 end
 
 Given /^I am friends with a user with email "([^"]*)" and name "([^"]*)"$/ do |email, name|
-  Given %{I am a user with an email "user@test.com" and password "password"}
-  And %{I am friended by a user with an email "foo@bar.com" and name "Joe Friend"}
+  if @current_user.nil?
+    Given %{I am a user with an email "user@test.com" and password "password"}
+  end
+  And %{I am friended by a user with an email "#{email}" and name "#{name}"}
   When %{I sign in as "user@test.com/password"}
   And %{I press "Accept"}
 end

@@ -19,3 +19,6 @@ Feature: Accept friendship
     And I visit the profile of the user with email "foo@bar.com"
     Then I should see "You are friends"
     And I should not see a button with "Request friendship"
+    
+  @wip
+  Scenario: Accept a friendship request that you previously ignored
