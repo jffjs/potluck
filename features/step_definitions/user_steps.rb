@@ -8,12 +8,17 @@ end
 
 Given /^I am a user with an email "([^"]*)" and password "([^"]*)"$/ do |email, password|
   @current_user = User.create!(:name => "Test User", :email => email, :password => password,
-                                                      :password_confirmation => password)
+                                                     :password_confirmation => password)
 end
 
 Given /^a user with an email "([^"]*)" and name "([^"]*)"$/ do |email, name|
   @user = User.create!(:name => name, :email => email, :password => "password",
-                                                      :password_confirmation => "password")
+                                                       :password_confirmation => "password")
+end
+
+Given /^I am a registered user and signed in$/ do
+  Given %{I am a user with an email "user@test.com" and password "password"}
+  When %{I sign in as "user@test.com/password"}
 end
 
 When /^I sign in as "(.*)\/(.*)"$/ do |email, password|

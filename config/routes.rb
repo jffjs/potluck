@@ -8,6 +8,7 @@ Potluck::Application.routes.draw do
       post 'remove'
     end
   end
+  resources :recipes
   root :to => 'pages#home'
   # The priority is based upon order of creation:
   # first created -> highest priority.

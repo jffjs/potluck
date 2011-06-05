@@ -20,5 +20,12 @@ Feature: Accept friendship
     Then I should see "You are friends"
     And I should not see a button with "Request friendship"
     
-  @wip
   Scenario: Accept a friendship request that you previously ignored
+    Given I am a user with an email "user@test.com" and password "password"
+    And I am friended by a user with an email "foo@bar.com" and name "Jane Doe"
+    When I sign in as "user@test.com/password"
+    And I press "Ignore"
+    And I visit the user's profile
+    And I press "Accept"
+    Then I should see "You are now friends with Jane Doe"
+    

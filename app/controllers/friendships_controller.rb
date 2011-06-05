@@ -22,7 +22,7 @@ class FriendshipsController < ApplicationController
   end
   
   def accept    
-    if current_user.pending_friends.include?(@friend)
+    if current_user.pending_friends.include?(@friend) || current_user.ignored_pending_friends.include?(@friend)
       accept_friend
     elsif current_user.requested_friends.include?(@friend)
       flash[:alert] = "You must wait for this user to accept your friendship"
