@@ -19,6 +19,9 @@ module NavigationHelpers
       
     when /^sign out$/
       destroy_user_session_path
+      
+    when /^my recipes page$/
+      recipes_path
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

@@ -1,18 +1,20 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.0.rc1'
+gem 'rails', '3.1.0'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-gem 'devise', :git => 'https://github.com/plataformatec/devise.git'
-gem 'haml'
+gem 'devise'
+gem 'haml-rails'
 
 # Asset template engines
-gem 'sass'
-gem 'coffee-script'
-gem 'uglifier'
+group :assets do
+  gem 'sass-rails', '~> 3.1.0'
+  gem 'coffee-rails', '~> 3.1.0'
+  gem 'uglifier'
+end
 
 gem 'jquery-rails'
 
@@ -34,9 +36,9 @@ end
 group :test, :development do
   gem 'capybara'
   gem 'cucumber-rails'
-  gem 'rspec-rails', '2.6.1.beta1' # to work with new 0.9.0 rake
+  gem 'rspec-rails', '~> 2.6'
   gem 'database_cleaner'
-  gem 'ZenTest'
+  gem 'autotest'
   gem 'autotest-rails'
   gem 'autotest-growl'
   gem 'autotest-fsevent'

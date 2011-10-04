@@ -110,6 +110,7 @@ describe FriendshipsController do
     context "with a user that has not requested friendship with you" do
       before do
         current_user.stub(:pending_friends).and_return([])
+        current_user.stub(:ignored_pending_friends).and_return([])
         current_user.stub(:requested_friends).and_return([])
         current_user.stub(:friends).and_return([])
       end
@@ -129,6 +130,7 @@ describe FriendshipsController do
       before do
         current_user.stub(:requested_friends).and_return([friend])
         current_user.stub(:pending_friends).and_return([])
+        current_user.stub(:ignored_pending_friends).and_return([])
       end
       
       it "should not accept the friendship" do
@@ -147,6 +149,7 @@ describe FriendshipsController do
         current_user.stub(:friends).and_return([friend])
         current_user.stub(:requested_friends).and_return([])
         current_user.stub(:pending_friends).and_return([])
+        current_user.stub(:ignored_pending_friends).and_return([])
       end
       
       it "should not accept the friendship" do

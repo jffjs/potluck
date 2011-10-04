@@ -1,0 +1,16 @@
+= form_for @recipe do |f|
+  = f.label :name
+  = f.text_field :name
+  %br
+  = f.label :description
+  = f.text_area :description
+  %br
+  = f.label :yields
+  = f.text_field :yields
+  %br
+  = f.label :cooking_time_hours, 'Cooking time'
+  = f.text_field :cooking_time_hours
+  %br
+  = f.label :preparation
+  = f.text_field :preparation
+  = f.submit 'Submit'
