@@ -1,5 +1,13 @@
 %h2= @group.name
 %p= @group.description
+- if user_signed_in?
+  - if @membership.persisted?
+    = link_to "Leave group", membership_path(@membership), :method => :delete
+  - else
+    = form_for @membership do |f|
+      = f.hidden_field :group_id, :value => @group.id
+      = f.hidden_field :user_id,  :value => current_user.id
+      = f.submit 'Join group'
 %h3 Members
 %ul
   - @group.members.each do |member|

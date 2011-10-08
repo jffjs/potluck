@@ -17,5 +17,9 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
+    if user_signed_in?
+      conds = { :group_id => @group, :user_id => current_user }
+      @membership = Membership.first(:conditions => conds ) || Membership.new
+    end
   end
 end
