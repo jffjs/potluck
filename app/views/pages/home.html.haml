@@ -1,7 +1,8 @@
 - if user_signed_in?
-  = current_user.name
-  = link_to 'Add a recipe', new_recipe_path
-  = link_to 'Friends', friendships_path
+  %p= link_to current_user.name, user_path(current_user)
+  %p= link_to 'Add a recipe', new_recipe_path
+  %p= link_to 'New Group', new_group_path
+  %p= link_to 'Friends', friendships_path
   - if current_user.pending_friends.length > 0
     %ul#pending-friends-list
       - current_user.pending_friends.each do |pending_friend|

@@ -15,3 +15,15 @@
       = form_tag friendships_path do
         = hidden_field_tag 'friend_id', @user.id
         = submit_tag 'Request friendship'
+  %h3 Groups you own
+  %ul
+    - @user.owned_groups.each do |group|
+      %li= link_to group.name, group_path(group)
+  %h3 Member of
+  %ul
+    - @user.groups.each do |group|
+      %li= link_to group.name, group_path(group)
+  %h3 Recipes
+  %ul
+    - @user.recipes.each do |recipe|
+      %li= link_to recipe.name, recipe_path(recipe)

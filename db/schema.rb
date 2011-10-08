@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110605023717) do
+ActiveRecord::Schema.define(:version => 20111006234242) do
 
   create_table "friendships", :force => true do |t|
     t.integer  "user_id"
@@ -21,13 +22,33 @@ ActiveRecord::Schema.define(:version => 20110605023717) do
     t.boolean  "ignored"
   end
 
+  create_table "groups", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "owner_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "memberships", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "recipes", :force => true do |t|
     t.string   "name"
     t.string   "description"
     t.text     "preparation"
-    t.integer  "yields"
-    t.integer  "cooking_time_hours"
-    t.integer  "cooking_time_minutes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
+
+  create_table "shared_recipes", :force => true do |t|
+    t.integer  "group_id"
+    t.integer  "recipe_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

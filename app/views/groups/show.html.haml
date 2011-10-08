@@ -1,0 +1,10 @@
+%h2= @group.name
+%p= @group.description
+%h3 Members
+%ul
+  - @group.members.each do |member|
+    %li= link_to member.name, user_path(member)
+%h3 Recipes
+%ul
+  - @group.recipes.each do |recipe|
+    %li= link_to recipe.name, recipe_path(recipe)

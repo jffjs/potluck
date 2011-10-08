@@ -9,6 +9,8 @@ Potluck::Application.routes.draw do
     end
   end
   resources :recipes
+  resources :shared_recipes, :only => [:create]
+  resources :groups
   root :to => 'pages#home'
   # The priority is based upon order of creation:
   # first created -> highest priority.

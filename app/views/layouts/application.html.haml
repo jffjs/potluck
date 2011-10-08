@@ -11,12 +11,12 @@
     = csrf_meta_tags
   %body
     .container
-      - if user_signed_in?
-        %ul
+      %ul
+        %li= link_to 'Home', root_path
+        - if user_signed_in?
           %li= link_to 'Edit account', edit_user_registration_path
           %li= link_to 'Log out', destroy_user_session_path
-      - else
-        %ul
+        - else
           %li= link_to 'Sign up', new_user_registration_path
           %li= link_to 'Log in', new_user_session_path
       - if flash[:notice]

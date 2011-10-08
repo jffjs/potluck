@@ -1,3 +1,7 @@
 = @recipe.name
-= form_tag '/' do
-  = submit_tag 'Share it!'
+- if user_signed_in?
+  = form_tag shared_recipes_path do
+    /dropdown here with all groups
+    = select 'shared_recipe', 'group_id', @groups.collect { |g| [g.name, g.id] }
+    = hidden_field_tag 'shared_recipe[recipe_id]', @recipe.id
+    = submit_tag "Share"

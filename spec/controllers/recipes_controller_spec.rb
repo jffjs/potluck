@@ -26,9 +26,7 @@ describe RecipesController do
       Recipe.stub(:new).and_return(recipe)
       @attr = { 'name' => "Recipe",
                 'description' => "Recipe desc",
-                'yields' => "8",
-                'preparation' => "Add this to that",
-                'cooking_time_hours' => "1" }
+                'preparation' => "Add this to that" }
     end
 
     it "creates a new recipe" do
