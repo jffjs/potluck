@@ -1,5 +1,7 @@
 = @recipe.name
-- if user_signed_in?
+- if user_signed_in? && @recipe.user == current_user
+  = link_to 'Delete', recipe_path(@recipe), :method => :delete,
+                                            :confirm => 'Are you sure?'
   = form_tag shared_recipes_path do
     /dropdown here with all groups
     = select 'shared_recipe', 'group_id', @groups.collect { |g| [g.name, g.id] }

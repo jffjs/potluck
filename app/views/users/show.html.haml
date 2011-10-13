@@ -26,4 +26,5 @@
   %h3 Recipes
   %ul
     - @user.recipes.each do |recipe|
-      %li= link_to recipe.name, recipe_path(recipe)
+      - if recipe.visible_to? current_user
+        %li= link_to recipe.name, recipe_path(recipe)

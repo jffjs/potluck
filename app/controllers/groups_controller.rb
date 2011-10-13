@@ -22,4 +22,10 @@ class GroupsController < ApplicationController
       @membership = Membership.first(:conditions => conds ) || Membership.new
     end
   end
+
+  def destroy
+    @group = Group.find(params[:id])
+    @group.destroy
+    redirect_to root_path
+  end
 end

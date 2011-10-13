@@ -1,24 +1,31 @@
-Factory.define :user do |u|
-  u.name "John Doe"
-  u.email "foo@bar.com"
-  u.password "password"
-  u.password_confirmation "password"
-end
+FactoryGirl.define do
+  sequence :email do |n|
+    "user#{n}@email.com"
+  end
 
-Factory.define :friend, :class => User do |u|
-  u.name "Jane Doe"
-  u.email "baz@quack.com"
-  u.password "password"
-  u.password_confirmation "password"
-end
+  factory :recipe do
+    name "Stew"
+    description "Beefy and good"
+    preparation "Throw it in a pot"
+    privacy 0
+  end
 
-Factory.define :recipe do |r|
-  r.name "Stew"
-  r.description "Beefy and good"
-  r.preparation "Throw it in a pot"
-end
+  factory :user do
+    name "John Doe"
+    email { FactoryGirl.generate(:email) }
+    password "password"
+    password_confirmation "password"
+  end
 
-Factory.define :group do |g|
-  g.name "Family"
-  g.description "Family recipes!"
+  factory :friend, :class => User do
+    name "Jane Doe"
+    email { FactoryGirl.generate(:email) }
+    password "password"
+    password_confirmation "password"
+  end
+
+  factory :group do
+    name "Family"
+    description "Family recipes!"
+  end
 end

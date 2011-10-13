@@ -1,6 +1,9 @@
 %h2= @group.name
 %p= @group.description
 - if user_signed_in?
+  - if @group.owner = current_user
+    = link_to 'Delete', group_path(@group), :method => :delete,
+                                            :confirm => 'Are you sure?'
   - if @membership.persisted?
     = link_to "Leave group", membership_path(@membership), :method => :delete
   - else

@@ -21,4 +21,10 @@ class RecipesController < ApplicationController
     @recipe = Recipe.find(params[:id])
     @groups = current_user.groups - @recipe.groups if user_signed_in?
   end
+
+  def destroy
+    @recipe = Recipe.find(params[:id])
+    @recipe.destroy
+    redirect_to root_path
+  end
 end

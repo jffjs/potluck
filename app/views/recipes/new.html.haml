@@ -3,8 +3,12 @@
   = f.text_field :name
   %br
   = f.label :description
-  = f.text_area :description
+  = f.text_field :description
   %br
   = f.label :preparation
   = f.text_field :preparation
+  %br
+  = f.label :privacy
+  = f.select :privacy, [['Private', 0],['Public', 1]]
+  %br
   = f.submit 'Submit'
