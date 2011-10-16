@@ -1,10 +1,12 @@
 - if user_signed_in?
   %p= link_to current_user.name, user_path(current_user)
-  %p= link_to 'Add a recipe', new_recipe_path
-  %p= link_to 'New Group', new_group_path
-  %p= link_to 'Friends', friendships_path
-  - if current_user.pending_friends.length > 0
-    %ul#pending-friends-list
-      - current_user.pending_friends.each do |pending_friend|
-        %li.pending-friend
-          = render :partial => 'friendships/pending_friend', :locals => {:pending_friend => pending_friend }
+  - content_for :aside do
+    %p= link_to 'Add a recipe', new_recipe_path
+    %p= link_to 'New Group', new_group_path
+    %p= link_to 'Friends', friendships_path
+    - if current_user.pending_friends.length > 0
+      %ul#pending-friends-list
+        - current_user.pending_friends.each do |pending_friend|
+          %li.pending-friend
+            = render :partial => 'friendships/pending_friend',
+                     :locals => {:pending_friend => pending_friend }

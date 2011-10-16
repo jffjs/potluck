@@ -1,0 +1,17 @@
+%header
+  %nav#user-nav
+    %ul
+      - if user_signed_in?
+        %li= link_to 'Profile', user_path(current_user)
+        %li= link_to 'Edit account', edit_user_registration_path
+        %li= link_to 'Log out', destroy_user_session_path
+      - else
+        %li= link_to 'Sign up', new_user_registration_path
+        %li= link_to 'Log in', new_user_session_path
+  #logo
+    %h1= link_to "Potluck", root_path
+  %nav#menu-nav
+    %ul
+      %li= link_to "Recipes", recipes_path
+      %li= link_to "Groups",  groups_path
+      %li= link_to "People",  users_path

@@ -6,8 +6,10 @@ Recipe security levels
   X public: everyone can see it
   - (don't think I need this) shared: only groups that I've shared with can see it
 Group security levels
-  - public: anyone can join
-  - private: invite only
+  X public: anyone can join
+  X private: invite only
+  - implement inviting members
+  - group administration
 Following?
   - change friendship around to a following type of relationship
   - follow a user to automatically see her public recipes in your stream

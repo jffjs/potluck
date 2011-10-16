@@ -1,14 +1,21 @@
 = form_for @recipe do |f|
-  = f.label :name
-  = f.text_field :name
-  %br
-  = f.label :description
-  = f.text_field :description
-  %br
-  = f.label :preparation
-  = f.text_field :preparation
-  %br
-  = f.label :privacy
-  = f.select :privacy, [['Private', 0],['Public', 1]]
+  .form-item
+    = f.label :name
+    %br
+    = f.text_field :name
+  .form-item
+    = f.label :description
+    %br
+    = f.text_area:description
+  .form-item
+    = f.label :preparation
+    %br
+    = f.text_area :preparation
+  .form-item
+    = f.radio_button :privacy, '0', :checked => true
+    %label{:for => 'recipe_privacy_0'} Private - Only available in groups you share with
+    %br
+    = f.radio_button :privacy, '1'
+    %label{:for => 'recipe_privacy_1'} Public - Everyone can see it
   %br
   = f.submit 'Submit'

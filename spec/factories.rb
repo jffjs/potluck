@@ -27,5 +27,6 @@ FactoryGirl.define do
   factory :group do
     name "Family"
     description "Family recipes!"
+    privacy 0
   end
 end

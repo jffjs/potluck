@@ -1,21 +1,24 @@
 %h2= @group.name
 %p= @group.description
-- if user_signed_in?
-  - if @group.owner = current_user
-    = link_to 'Delete', group_path(@group), :method => :delete,
-                                            :confirm => 'Are you sure?'
-  - if @membership.persisted?
-    = link_to "Leave group", membership_path(@membership), :method => :delete
-  - else
-    = form_for @membership do |f|
-      = f.hidden_field :group_id, :value => @group.id
-      = f.hidden_field :user_id,  :value => current_user.id
-      = f.submit 'Join group'
-%h3 Members
-%ul
-  - @group.members.each do |member|
-    %li= link_to member.name, user_path(member)
-%h3 Recipes
-%ul
-  - @group.recipes.each do |recipe|
-    %li= link_to recipe.name, recipe_path(recipe)
+- if @group.visible_to? current_user
+  - if user_signed_in?
+    - if @group.owner == current_user
+      = link_to 'Delete', group_path(@group), :method => :delete,
+                                              :confirm => 'Are you sure?'
+    - if @membership.persisted?
+      = link_to "Leave group", membership_path(@membership), :method => :delete
+    - else
+      = form_for @membership do |f|
+        = f.hidden_field :group_id, :value => @group.id
+        = f.hidden_field :user_id,  :value => current_user.id
+        = f.submit 'Join group'
+    %h3 Members
+    %ul
+      - @group.members.each do |member|
+        %li= link_to member.name, user_path(member)
+    %h3 Recipes
+    %ul
+      - @group.recipes.each do |recipe|
+        %li= link_to recipe.name, recipe_path(recipe)
+- else
+  %p This group is private. You need an invitation to join.
