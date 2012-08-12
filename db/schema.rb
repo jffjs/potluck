@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111013015101) do
+ActiveRecord::Schema.define(:version => 20111020011731) do
 
   create_table "friendships", :force => true do |t|
     t.integer  "user_id"
@@ -31,9 +31,26 @@ ActiveRecord::Schema.define(:version => 20111013015101) do
     t.integer  "privacy"
   end
 
+  create_table "ingredients", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "memberships", :force => true do |t|
     t.integer  "user_id"
     t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "pending",    :default => false
+  end
+
+  create_table "recipe_ingredients", :force => true do |t|
+    t.string   "amount"
+    t.string   "measurement"
+    t.string   "raw"
+    t.integer  "recipe_id"
+    t.integer  "ingredient_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

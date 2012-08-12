@@ -2,6 +2,14 @@ require 'spec_helper'
 
 describe Recipe do
 
+  describe "validations" do
+    it "requires a name" do
+      recipe = FactoryGirl.build(:recipe)
+      recipe.name = nil
+      recipe.should_not be_valid
+    end
+  end
+
   describe "#private?" do
     it "returns true if recipe is private" do
       r = Factory(:recipe)

@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
 
   has_many :recipes
-  has_many :memberships
+  has_many :memberships, dependent: :destroy
   has_many :groups, :through => :memberships
   has_many :owned_groups, :class_name => 'Group', :foreign_key => 'owner_id'
   has_many :friends, :through => :friendships, :conditions => "status = 'accepted'"

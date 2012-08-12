@@ -3,11 +3,6 @@ require 'spec_helper'
 describe RecipesController do
   describe "GET new" do
 
-    it "creates an empty recipe" do
-      Recipe.should_receive(:new)
-      get :new
-    end
-
     it "should render the 'new' template" do
       get :new
       response.should render_template('new')
@@ -86,6 +81,29 @@ describe RecipesController do
     it "displays a list of recipes" do
       Recipe.should_receive(:all)
       get :index
+    end
+  end
+
+  describe "GET edit" do
+    let(:recipe) { mock_model(Recipe).as_null_object }
+
+    before do
+      Recipe.stub(:find).and_return(recipe)
+    end
+
+    it "finds the recipe" do
+      Recipe.should_receive(:find).with(recipe.id.to_s).and_return(recipe)
+      get :edit, :id => recipe.id
+    end
+
+    it "should render the 'edit' template" do
+      get :edit, :id => recipe.id
+      response.should render_template('edit')
+    end
+
+    it "assigns @recipe" do
+      get :edit, :id => recipe.id
+      assigns[:recipe].should_not be_nil
     end
   end
 end

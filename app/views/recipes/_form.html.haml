@@ -1,0 +1,29 @@
+= form_for @recipe do |f|
+  .form-item
+    = f.label :name
+    %br
+    = f.text_field :name
+  .form-item
+    = f.label :description
+    %br
+    = f.text_area:description
+  .form-item
+    %label Ingredients
+    %br
+    = f.fields_for :ingredients do |ingredient|
+      .ingredient
+        = ingredient.text_field :raw
+    = hidden_field_tag :index, @index
+    = button_tag 'Add', :type => :button, :id => :add_ingredient
+  .form-item
+    = f.label :preparation
+    %br
+    = f.text_area :preparation
+  .form-item
+    = f.radio_button :privacy, '0', :checked => true
+    %label{:for => 'recipe_privacy_0'} Private - Only available in groups you share with
+    %br
+    = f.radio_button :privacy, '1'
+    %label{:for => 'recipe_privacy_1'} Public - Everyone can see it
+  %br
+  = f.submit 'Submit'

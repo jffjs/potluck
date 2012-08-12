@@ -5,6 +5,10 @@ class RecipesController < ApplicationController
 
   def new
     @recipe = Recipe.new
+    @index = 3
+    @index.times do
+      @recipe.ingredients << RecipeIngredient.new
+    end
   end
 
   def create
@@ -26,5 +30,18 @@ class RecipesController < ApplicationController
     @recipe = Recipe.find(params[:id])
     @recipe.destroy
     redirect_to root_path
+  end
+
+  def edit
+    @recipe = Recipe.find(params[:id])
+  end
+
+  def update
+    @recipe = Recipe.find(params[:id])
+    if @recipe.update_attributes(params[:recipe])
+      redirect_to recipe_path(@recipe)
+    else
+      render :edit
+    end
   end
 end

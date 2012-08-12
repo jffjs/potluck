@@ -1,2 +1,3 @@
-- @recipes.each do |recipe|
-  = link_to recipe.name, recipe_path(recipe)
+%ul
+  - @recipes.each do |recipe|
+    %li= link_to recipe.name, recipe_path(recipe)

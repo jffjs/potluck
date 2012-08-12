@@ -10,8 +10,14 @@ Potluck::Application.routes.draw do
   end
   resources :recipes
   resources :shared_recipes, :only => [:create]
-  resources :groups
-  resources :memberships, :only => [:create, :destroy]
+  resources :groups do
+    resources :memberships, :only => [:create, :destroy] do
+      collection do
+        post 'invite'
+      end
+    end
+  end
+  # resources :memberships, :only => [:create, :destroy]
   root :to => 'pages#home'
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -28,4 +28,12 @@ class GroupsController < ApplicationController
     @group.destroy
     redirect_to root_path
   end
+
+  def index
+    @groups = Group.all
+  end
+
+  def edit
+    @group = Group.find(params[:id])
+  end
 end

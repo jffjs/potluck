@@ -1,9 +1,21 @@
-= @recipe.name
-- if user_signed_in? && @recipe.user == current_user
-  = link_to 'Delete', recipe_path(@recipe), :method => :delete,
-                                            :confirm => 'Are you sure?'
-  = form_tag shared_recipes_path do
-    /dropdown here with all groups
-    = select 'shared_recipe', 'group_id', @groups.collect { |g| [g.name, g.id] }
-    = hidden_field_tag 'shared_recipe[recipe_id]', @recipe.id
-    = submit_tag "Share"
+- if @recipe.visible_to?(current_user)
+  %h1= @recipe.name
+  %p= @recipe.description
+  %h2 Ingredients
+  %ul
+  - @recipe.ingredients.each do |ingredient|
+    %li= ingredient.raw
+  %h3 Preperation
+  %p= @recipe.preparation
+  - content_for :aside do
+    - if user_signed_in? 
+      - if @recipe.user == current_user
+        = link_to 'Delete', recipe_path(@recipe), :method => :delete,
+                                                  :confirm => 'Are you sure?'
+        = link_to 'Edit', edit_recipe_path(@recipe)
+        = form_tag shared_recipes_path do
+          = select 'shared_recipe', 'group_id', @groups.collect { |g| [g.name, g.id] }
+          = hidden_field_tag 'shared_recipe[recipe_id]', @recipe.id
+          = submit_tag "Share"
+      - else
+        = link_to "Add to your recipes", '#'

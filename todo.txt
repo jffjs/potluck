@@ -1,23 +1,25 @@
 X Delete a group
 X Delete a recipe
 Owner leaves group - Needs to assign a new owner
-Recipe security levels
+X Recipe security levels
   X personal: only I can see it
   X public: everyone can see it
-  - (don't think I need this) shared: only groups that I've shared with can see it
 Group security levels
   X public: anyone can join
   X private: invite only
-  - implement inviting members
-  - group administration
+  X implement inviting members
+  - group administration <----- work on next
+  - discussion?
 Following?
   - change friendship around to a following type of relationship
   - follow a user to automatically see her public recipes in your stream
 Stream
   - shows recipes as they are shared with your groups
 Advanced recipe features
-  - ingredient management
-  - difficulty level
+  - ingredient management <--- mostly done
+  - difficulty level <--- do this after finishing groups
+  - comments
+  - copying/modifying
 Search - recipe and group
 View popular recipes and groups
 Social integrations - sign on & find friends on facebook, twitter, etc

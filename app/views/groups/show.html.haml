@@ -2,16 +2,6 @@
 %p= @group.description
 - if @group.visible_to? current_user
   - if user_signed_in?
-    - if @group.owner == current_user
-      = link_to 'Delete', group_path(@group), :method => :delete,
-                                              :confirm => 'Are you sure?'
-    - if @membership.persisted?
-      = link_to "Leave group", membership_path(@membership), :method => :delete
-    - else
-      = form_for @membership do |f|
-        = f.hidden_field :group_id, :value => @group.id
-        = f.hidden_field :user_id,  :value => current_user.id
-        = f.submit 'Join group'
     %h3 Members
     %ul
       - @group.members.each do |member|
@@ -20,5 +10,19 @@
     %ul
       - @group.recipes.each do |recipe|
         %li= link_to recipe.name, recipe_path(recipe)
+    - content_for :aside do
+      - if @group.owner == current_user
+        = link_to 'Delete', group_path(@group), method:   :delete,
+                                                confirm:  'Are you sure?'
+        = form_tag invite_group_memberships_path(@group) do
+          = select_tag :user_id,
+              options_from_collection_for_select(User.all, :id, :name)
+          = submit_tag "Invite"
+      - if @membership.persisted?
+        - unless @group.owner == current_user
+          = link_to "Leave group", group_membership_path(@group, @membership),
+                                   method: :delete
+      - else
+        = render partial: 'memberships/join_form', locals: { group: @group }
 - else
   %p This group is private. You need an invitation to join.
