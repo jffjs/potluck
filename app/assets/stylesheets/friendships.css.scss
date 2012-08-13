@@ -3,3 +3,10 @@
   They will automatically be included in application.css.
   You can use Sass (SCSS) here: http://sass-lang.com/
 */
+li.pending-friend {
+  h4, h5 { 
+    display: inline-block;
+    margin-right: 8px;
+  }
+  form { display: inline-block; }
+}

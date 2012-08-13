@@ -8,13 +8,10 @@
         = render partial: 'memberships/join_form', locals: { group: invite.group }
         = link_to "Ignore", group_membership_path(invite.group, invite),
                             method: :delete
-  - content_for :aside do
-    %p= link_to 'Add a recipe', new_recipe_path
-    %p= link_to 'New Group', new_group_path
-    %p= link_to 'Friends', friendships_path
+  - content_for :sidebar do
+    %li.nav-header Pending Friends
     - if current_user.pending_friends.length > 0
-      %ul#pending-friends-list
-        - current_user.pending_friends.each do |pending_friend|
-          %li.pending-friend
-            = render :partial => 'friendships/pending_friend',
-                     :locals => {:pending_friend => pending_friend }
+      - current_user.pending_friends.each do |pending_friend|
+        %li.pending-friend
+          = render :partial => 'friendships/pending_friend',
+                   :locals => {:pending_friend => pending_friend }

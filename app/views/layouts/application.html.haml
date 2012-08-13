@@ -1,22 +1,74 @@
 !!! 5
-%html
+%html(lang="en")
   %head
-    %title Potluck
-    = stylesheet_link_tag     "application"
-    = javascript_include_tag  "application"
+    %meta(charset="utf-8")
+    %meta(http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1")
+    %meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    %title= content_for?(:title) ? yield(:title) : "Potluck"
     = csrf_meta_tags
+    / Le HTML5 shim, for IE6-8 support of HTML elements
+    /[if lt IE 9]
+      = javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js"
+    = stylesheet_link_tag "application", :media => "all"
+    %link(href="images/apple-touch-icon-144x144.png" rel="apple-touch-icon-precomposed" sizes="144x144")
+    %link(href="images/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114")
+    %link(href="images/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72")
+    %link(href="images/apple-touch-icon.png" rel="apple-touch-icon-precomposed")
+    %link(href="images/favicon.ico" rel="shortcut icon")
+
+
   %body
-    #container
-      = render :partial => 'layouts/header'
-      #content
-        #main
-          - if flash[:notice]
-            .notice= flash[:notice]
-          - if flash[:alert]
-            .alert= flash[:alert]
-          = yield
-        %aside
-          = yield :aside
-        .clearer
-      #footer
-        = debug(params) if Rails.env.development?
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container-fluid
+          %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+            %a.brand(href="#{root_path}") Potluck
+          .container.nav-collapse
+            %ul.nav
+              %li= link_to "Recipes", recipes_path
+              %li= link_to "Groups", groups_path
+              %li= link_to "People", users_path
+            %ul.nav.pull-right
+              - if user_signed_in?
+                %li= link_to "Log out", destroy_user_session_path
+              - else
+                %li= link_to "Sign Up", new_user_registration_path
+                %li= link_to "Log in", new_user_session_path
+
+    .container-fluid
+      - if content_for? :subnav
+        .subnav.subnav-fluid
+          %ul.nav.nav-pills
+            = yield :subnav
+      .row-fluid
+        - if content_for? :sidebar
+          .span3
+            .well.sidebar-nav
+              %ul.nav.nav-list
+                = yield :sidebar
+          .span9
+            -#= render :partial => 'shared/flash'
+            - if flash[:notice]
+              .notice= flash[:notice]
+            - if flash[:alert]
+              .alert= flash[:alert]
+            = yield
+        - else
+          .span12
+            -#= render :partial => 'shared/flash'
+            - if flash[:notice]
+              .notice= flash[:notice]
+            - if flash[:alert]
+              .alert= flash[:alert]
+            = yield
+    
+      %footer
+        %p &copy; Company 2012
+    /
+      Javascripts
+      \==================================================
+    / Placed at the end of the document so the pages load faster
+    = javascript_include_tag "application"

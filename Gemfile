@@ -7,7 +7,6 @@ gem 'rails', '3.2.8'
 
 gem 'sqlite3'
 gem 'devise'
-gem 'haml-rails'
 
 # Asset template engines
 group :assets do
@@ -17,6 +16,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'haml-rails'
 gem 'twitter-bootstrap-rails'
 
 # Use unicorn as the web server

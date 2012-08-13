@@ -1,8 +1,8 @@
-= "#{pending_friend.name} requested friendship"
-= form_tag accept_friendships_path do
+%h4= pending_friend.name
+= form_tag accept_friendships_path, class: "form-inline" do
   = hidden_field_tag 'friend_id', pending_friend.id
-  = submit_tag 'Accept'
+  = submit_tag 'Accept', class: "btn btn-success"
 - unless current_user.ignored_pending_friends.include?(pending_friend)
-  = form_tag ignore_friendships_path do
+  = form_tag ignore_friendships_path, class: "form-inline" do
     = hidden_field_tag 'friend_id', pending_friend.id
-    = submit_tag 'Ignore'
+    = submit_tag 'Ignore', class: "btn btn-inverse"

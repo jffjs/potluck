@@ -1,3 +1,5 @@
+- content_for :subnav do
+  %li= link_to "Add", new_recipe_path
 %ul
   - @recipes.each do |recipe|
     %li= link_to recipe.name, recipe_path(recipe)
