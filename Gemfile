@@ -18,6 +18,7 @@ end
 gem 'jquery-rails'
 gem 'haml-rails'
 gem 'twitter-bootstrap-rails'
+gem 'simple_form'
 
 # Use unicorn as the web server
 # gem 'unicorn'
